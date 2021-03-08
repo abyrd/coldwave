@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16096"/>
-        <plugIn identifier="com.apple.imagekit.ibplugin" version="16096"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <plugIn identifier="com.apple.imagekit.ibplugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -25,12 +25,6 @@
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
                                         <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
-                                        <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
-                                        <menuItem title="Services" id="NMo-om-nkz">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Services" systemMenu="services" id="hz9-B4-Xy5"/>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="4je-JR-u6R"/>
                                         <menuItem title="Hide Coldwave" keyEquivalent="h" id="Olw-nP-bQN">
                                             <connections>
                                                 <action selector="hide:" target="Ady-hI-5gd" id="PnN-Uc-m68"/>
@@ -66,11 +60,7 @@
                                                 <action selector="openDocument:" target="Ady-hI-5gd" id="bVn-NM-KNZ"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Rescan albums" keyEquivalent="r" id="BnO-XP-ubl">
-                                            <connections>
-                                                <action selector="openDocument:" target="Ady-hI-5gd" id="CkU-wQ-gK9"/>
-                                            </connections>
-                                        </menuItem>
+                                        <menuItem title="Rescan albums" keyEquivalent="r" id="BnO-XP-ubl"/>
                                         <menuItem title="Open Recent" id="tXI-mr-wws">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Open Recent" systemMenu="recentDocuments" id="oas-Oc-fiZ">
@@ -182,13 +172,13 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView horizontalLineScroll="110" horizontalPageScroll="10" verticalLineScroll="110" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4GM-qA-g2l">
-                                <rect key="frame" x="5" y="82" width="531" height="309"/>
+                                <rect key="frame" x="5" y="80" width="531" height="311"/>
                                 <clipView key="contentView" copiesOnScroll="NO" id="Dqs-G6-nmp">
-                                    <rect key="frame" x="1" y="1" width="514" height="307"/>
+                                    <rect key="frame" x="1" y="1" width="529" height="309"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <ikImageBrowserView autoresizesSubviews="NO" misplaced="YES" zoomValue="0.56544488668441772" allowsMultipleSelection="NO" animates="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Jj-Sv-fwb">
-                                            <rect key="frame" x="0.0" y="61" width="460" height="251"/>
+                                            <rect key="frame" x="0.0" y="63" width="460" height="251"/>
                                             <ikCellsStyle key="cellsStyleMask" shadowed="YES" outlined="YES" titled="YES" subtitled="YES"/>
                                             <autoresizingMask key="contentResizingMask" heightSizable="YES"/>
                                             <size key="cellSize" width="91" height="91"/>
@@ -205,23 +195,23 @@
                                         <constraint firstItem="6Jj-Sv-fwb" firstAttribute="top" secondItem="Dqs-G6-nmp" secondAttribute="top" constant="42" id="zwT-jj-eP1"/>
                                     </constraints>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="pgt-vt-UK9">
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="pgt-vt-UK9">
                                     <rect key="frame" x="1" y="80" width="166" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="sFz-Rk-J6E">
-                                    <rect key="frame" x="515" y="1" width="15" height="307"/>
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="sFz-Rk-J6E">
+                                    <rect key="frame" x="514" y="1" width="16" height="309"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qUA-br-eGB">
-                                <rect key="frame" x="5" y="5" width="531" height="72"/>
+                                <rect key="frame" x="5" y="5" width="531" height="70"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="igY-rm-UQh">
-                                        <rect key="frame" x="0.0" y="48" width="531" height="24"/>
+                                        <rect key="frame" x="0.0" y="48" width="531" height="22"/>
                                         <subviews>
                                             <button translatesAutoresizingMaskIntoConstraints="NO" id="d8H-tr-fqE">
-                                                <rect key="frame" x="0.0" y="0.0" width="32" height="24"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="32" height="22"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="32" id="WvW-05-7ao"/>
                                                 </constraints>
@@ -234,7 +224,7 @@
                                                 </buttonCell>
                                             </button>
                                             <button translatesAutoresizingMaskIntoConstraints="NO" id="seQ-wA-9TE">
-                                                <rect key="frame" x="32" y="0.0" width="32" height="24"/>
+                                                <rect key="frame" x="32" y="0.0" width="32" height="22"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="32" id="qe3-ft-sWO"/>
                                                 </constraints>
@@ -247,7 +237,7 @@
                                                 </connections>
                                             </button>
                                             <button translatesAutoresizingMaskIntoConstraints="NO" id="yLW-PE-Ve3">
-                                                <rect key="frame" x="64" y="0.0" width="32" height="24"/>
+                                                <rect key="frame" x="64" y="0.0" width="32" height="22"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="32" id="pDg-ji-1ZY"/>
                                                 </constraints>
@@ -260,7 +250,7 @@
                                                 </connections>
                                             </button>
                                             <button translatesAutoresizingMaskIntoConstraints="NO" id="Evm-ei-SKx">
-                                                <rect key="frame" x="96" y="0.0" width="32" height="24"/>
+                                                <rect key="frame" x="96" y="0.0" width="32" height="22"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="32" id="z3E-wD-SDB"/>
                                                 </constraints>
@@ -273,7 +263,7 @@
                                                 </connections>
                                             </button>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vt2-sf-6Nc">
-                                                <rect key="frame" x="411" y="0.0" width="120" height="24"/>
+                                                <rect key="frame" x="411" y="0.0" width="120" height="22"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" title="No track playing" bezelStyle="round" id="WuD-HE-Dzp">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -304,17 +294,17 @@
                                         </customSpacing>
                                     </stackView>
                                     <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3Lh-xg-Elf">
-                                        <rect key="frame" x="-2" y="26" width="148" height="19"/>
+                                        <rect key="frame" x="-2" y="17" width="148" height="28"/>
                                         <sliderCell key="cell" state="on" alignment="left" maxValue="100" tickMarkPosition="above" sliderType="linear" id="GjJ-wf-XtY"/>
                                         <connections>
                                             <action selector="seek:" target="XfG-lQ-9wD" id="u7U-vp-a4q"/>
                                         </connections>
                                     </slider>
                                     <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="OpI-lt-5PI">
-                                        <rect key="frame" x="-2" y="-3" width="150" height="28"/>
+                                        <rect key="frame" x="-3" y="-4" width="146" height="25"/>
                                         <popUpButtonCell key="cell" type="bevel" title="No Album Selected" bezelStyle="regularSquare" alignment="left" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="8bx-eg-rvb">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="menu"/>
                                             <menu key="menu" id="aus-56-Zgp">
                                                 <items>
                                                     <menuItem title="No Album Selected" hidden="YES" id="mA4-VN-GMv"/>
