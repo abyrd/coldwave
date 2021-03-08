@@ -18,8 +18,7 @@ class ViewController: NSViewController, ORGMEngineDelegate {
     @IBOutlet weak var trackSelector: NSPopUpButton!
     
     var albums: [Album] = []
-//    let PATH = "/Volumes/Samsung SSD/flac rips with covers"
-    let PATH = "/Users/abyrd/Music/Test/"
+    var path: String = "";
     let origami = ORGMEngine()
     var timer: Timer?
     var playlist: [URL]  = []
@@ -31,13 +30,17 @@ class ViewController: NSViewController, ORGMEngineDelegate {
     let IMAGE_SIZE_STEP = 50
     var imageSize = 300
     
-    override func viewDidLoad() {        
+    override func viewDidLoad() {
         super.viewDidLoad()
-        albums = Album.scanLibrary(PATH)
-        imageBrowser.setCellSize(NSSize(width: imageSize, height: imageSize))
-        imageBrowser.reloadData()
-        //imageBrowser.needsDisplay = true;
         origami.delegate = self
+        imageBrowser.setCellSize(NSSize(width: imageSize, height: imageSize))
+    }
+    
+    func switchPath (_ newPath: String) {
+        path = newPath;
+        albums = Album.scanLibrary(path)
+        imageBrowser.reloadData()
+        // imageBrowser.needsDisplay = true;
     }
     
     override var representedObject: Any? {
@@ -50,11 +53,13 @@ class ViewController: NSViewController, ORGMEngineDelegate {
     // Objective C has runtime (late) binding: methods calls are represented by a string.
     @objc
     func updateDisplay() {
+        
         // Increment array index by 1 yielding traditional 'CD player' 1-based indexing.
-        let display = String(format: "Track %d (%1.0f/%1.0f sec)", currentTrack + 1, origami.amountPlayed(), origami.trackTime())
-//        if let metadata = origami.metadata, let title = metadata["title"] as? String {
-//            display += title
-//        }
+        var display = String(format: "Track %d", currentTrack + 1)
+        if let metadata = origami.metadata(), let title = metadata["title"] as? String {
+            display += " " + title + " "
+        }
+        display += String(format: "(%1.0f/%1.0f sec)", origami.amountPlayed(), origami.trackTime())
         label.stringValue = display
         seekSlider.doubleValue = origami.amountPlayed()
     }
@@ -121,6 +126,21 @@ class ViewController: NSViewController, ORGMEngineDelegate {
     }
     
     /* First Responder action handlers for menus */
+    @IBAction func openDocument(_ sender: AnyObject) {
+        let dialog = NSOpenPanel();
+        dialog.title                   = "Choose root music directory | ABCD";
+        dialog.showsResizeIndicator    = true;
+        dialog.showsHiddenFiles        = false;
+        dialog.allowsMultipleSelection = false;
+        dialog.canChooseDirectories    = true;
+        dialog.canChooseFiles          = false;
+        if (dialog.runModal() ==  NSApplication.ModalResponse.OK) {
+            let result = dialog.url
+            if (result != nil) {
+                switchPath(result!.path)
+            }
+        }
+    }
     
     @IBAction func zoomIn(_ sender: AnyObject) {
         if (imageSize < MAX_IMAGE_SIZE) {
