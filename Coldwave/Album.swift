@@ -67,7 +67,7 @@ class Album: NSObject {
     
 
     // Return an array of Album objects for subdirectories under the supplied base directory.
-    class func scanLibrary (_ basePath: String) -> [Album] {
+    class func scanLibrary (at basePath: String) -> [Album] {
         var albums: [Album] = []
         let fileManager = FileManager.default
         let contents = try! fileManager.contentsOfDirectory(atPath: basePath)
