@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
-import OrigamiEngine
+import AVFoundation
 
-var origami = ORGMEngine()
 var timer: Timer?
+var player: AVAudioPlayer?
 
 @main
 struct ColdwaveApp: App {
@@ -17,9 +17,10 @@ struct ColdwaveApp: App {
     @StateObject var state: ColdwaveState = ColdwaveState()
     
     var body: some Scene {
-        let origamiDelegate = OrigamiDelegate(self)
         WindowGroup {
-            ContentView(state: state).onAppear() {origami.delegate = origamiDelegate}
+            ContentView(state: state).onAppear() {
+                // Setup here
+            }
         }
         .commands {
             CommandGroup(before: CommandGroupPlacement.newItem) {
@@ -55,12 +56,12 @@ struct ColdwaveApp: App {
         }
     }
     
-    private class OrigamiDelegate: NSObject, ORGMEngineDelegate {
+    private class OrigamiDelegate: NSObject {
         private var parent: ColdwaveApp
         init (_ parent: ColdwaveApp) {
             self.parent = parent
         }
-        func engineExpectsNextUrl(_ engine: ORGMEngine!) -> URL! {
+        func engineExpectsNextUrl() -> URL! {
             var nextTrack = parent.state.currentTrack + 1
             if (nextTrack >= parent.state.playlist.count) {
                 nextTrack = 0
