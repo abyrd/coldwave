@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 let MIN_IMAGE_SIZE: CGFloat = 100
 let MAX_IMAGE_SIZE: CGFloat = 800
@@ -63,11 +64,17 @@ struct ContentView: View {
                 }
                 Image(systemName: "play.fill").padding(5).border(Color.black).onTapGesture {
                     print("PLAY")
-                    origami.resume()
+                    do {
+                        player = try AVAudioPlayer(contentsOf: state.playlist[0], fileTypeHint: "FLAC")
+                        guard let player = player else { return }
+                        player.play()
+                    } catch let error {
+                        print(error.localizedDescription)
+                    }
                 }
                 Image(systemName: "pause.fill").padding(5).border(Color.black).onTapGesture {
                     print("PAUSE")
-                    origami.pause()
+                    // origami.pause()
                 }
                 Image(systemName: "forward.end.fill").padding(5).border(Color.black).onTapGesture {
                     print("NEXT")
@@ -90,7 +97,7 @@ struct ContentView: View {
     
     private func jumpToTrack (_ trackNumber: Int) {
         if (trackNumber >= 0 && trackNumber < state.playlist.count) {
-            origami.play(state.playlist[trackNumber])
+            // origami.play(state.playlist[trackNumber])
             state.currentTrack = trackNumber;
         }
     }
