@@ -98,36 +98,18 @@ class Album: NSObject {
             }
         }
         return musicFileURLs
+    }    
+    
+    // Create an NSImage object for the album's cover image if any was detected, otherwise return an image with a generic record sleeve.
+    // This might be what's causing the UI to lag - we could pre-make these in the Album constructor but it will eat memory.
+    // The missing-record images should probably also be cached so we don't make 100 of the same thing.
+    func coverAsNSImage () -> NSImage {
+        return NSImage(contentsOfFile: coverImagePath) ?? NSImage(named: "record-sleeve-\(abs(title.hashValue % 2)).png")!
     }
-    
-    
 //    Use these to decide whether to catalog a given directory
 //    class func findMusicFiles
 //    class func findCoverImages
 //    class func findMetadataInDir
-    
-    /* IKImageBrowserItem informal protocol */
 
-    override func imageUID() -> String! {
-        // The full path of the album folder should uniquely identify an Album.
-        return albumPath
-    }
-    
-    override func imageRepresentationType() -> String! {
-        // The image will be supplied to the browser as a path String.
-        return IKImageBrowserPathRepresentationType
-    }
-    
-    override func imageRepresentation() -> Any! {
-        return coverImagePath
-    }
-    
-    override func imageTitle() -> String! {
-        return title
-    }
-
-    override func imageSubtitle() -> String! {
-        return artist
-    }
 
 }
