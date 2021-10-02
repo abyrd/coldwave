@@ -75,11 +75,14 @@ struct ColdwaveApp: App {
     }
 }
 
+// TODO add notes on using ObservableObject and Published instead of State variables.
+
 class ColdwaveState: ObservableObject {
     @Published var albums: [Album] = []
     @Published var path: String = "";
     @Published var currentTrack = 0
     @Published var coverSize: CGFloat = DEFAULT_IMAGE_SIZE
     @Published var playlist: [URL]  = []
+    @Published var playing: Bool = false
 }
 
