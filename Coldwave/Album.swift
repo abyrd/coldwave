@@ -15,7 +15,7 @@ class Album: NSObject {
     var albumPath: String
     var title: String
     var artist: String
-    //var cover: NSImage?
+    var cover: NSImage
 
     /* Call with full path to a directory */
     init (_ albumFullPath: String) {
@@ -39,6 +39,14 @@ class Album: NSObject {
         var pathComponents = (albumFullPath as NSString).pathComponents
         title = pathComponents.removeLast()
         artist = pathComponents.removeLast()
+        // Cache cover images so they're not reloaded on every SwiftUI update cycle.
+        // We could defer this until the image is actually used/displayed with a lazy-initializing property.
+        // We could also reuse the NSImages for the placeholder "missing cover" images.
+        if (coverImagePath == "") {
+            cover = NSImage(named: "record-sleeve-\(abs(title.hashValue % 2)).png")!
+        } else {
+            cover = NSImage(contentsOfFile: coverImagePath)!
+        }
     }
 
     /*
@@ -99,17 +107,11 @@ class Album: NSObject {
         }
         return musicFileURLs
     }    
-    
-    // Create an NSImage object for the album's cover image if any was detected, otherwise return an image with a generic record sleeve.
-    // This might be what's causing the UI to lag - we could pre-make these in the Album constructor but it will eat memory.
-    // The missing-record images should probably also be cached so we don't make 100 of the same thing.
-    func coverAsNSImage () -> NSImage {
-        return NSImage(contentsOfFile: coverImagePath) ?? NSImage(named: "record-sleeve-\(abs(title.hashValue % 2)).png")!
-    }
-//    Use these to decide whether to catalog a given directory
-//    class func findMusicFiles
-//    class func findCoverImages
-//    class func findMetadataInDir
+
+    //    Use these to decide whether to catalog a given directory
+    //    class func findMusicFiles
+    //    class func findCoverImages
+    //    class func findMetadataInDir
 
 
 }

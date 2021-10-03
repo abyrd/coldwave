@@ -50,29 +50,14 @@ struct ColdwaveApp: App {
             }
         }
     }
-    
-    private class OrigamiDelegate: NSObject {
-        private var parent: ColdwaveApp
-        init (_ parent: ColdwaveApp) {
-            self.parent = parent
-        }
-        func engineExpectsNextUrl() -> URL! {
-            var nextTrack = parent.state.currentTrack + 1
-            if (nextTrack >= parent.state.playlist.count) {
-                nextTrack = 0
-            }
-            // This is publishing from a background thread... fix it.
-            let nextUrl = parent.state.playlist[nextTrack]
-            print("Auto-advancing to next track: " + nextUrl.lastPathComponent)
-            parent.state.currentTrack = nextTrack
-            return nextUrl
-        }
-    }
+
 }
+
 
 class ColdwaveState: ObservableObject {
     @Published var albums: [Album] = []
     @Published var path: String = "";
+    @Published var currentAlbum: Album?
     @Published var currentTrack = 0
     @Published var coverSize: CGFloat = DEFAULT_IMAGE_SIZE
     @Published var playlist: [URL]  = []
@@ -96,13 +81,20 @@ class ColdwaveState: ObservableObject {
     
     // It doesn't seem clean to put this (or the AVPlayer) on the state, but notification
     // targets have to be objc functions which have to be members of an NSObject or protocol.
-    // I could probably factor the player field and this method out into another class.
+    // I could probably factor the player field and these methods out into another class.
+    // But then how would they set state?
     @objc func playerDidFinishPlaying(sender: Notification) {
         print("End of track \(currentTrack), advancing.")
         jumpToTrack(currentTrack + 1)
     }
-    
-    // TODO implement auto-next-track (with crossfade using setVolume(t) ?)
+
+    func jumpToTrack (album: Album, trackNumber: Int) {
+        currentAlbum = album;
+        playlist = album.getPlaylist()
+        jumpToTrack(trackNumber)
+    }
+
+    // TODO implement next-track crossfade using setVolume(t)? That's only available on AVAudioPlayer.
     func jumpToTrack (_ trackNumber: Int) {
         if (trackNumber >= 0 && trackNumber < playlist.count) {
             let track = AVPlayerItem(asset: AVAsset(url: playlist[trackNumber]))
@@ -123,6 +115,17 @@ class ColdwaveState: ObservableObject {
         }
     }
 
+    func pause () {
+        player.pause()
+        playing = false
+    }
+    
+    func play () {
+        if (player.currentItem != nil) {
+            player.play()
+            playing = true
+        }
+    }
 
 }
 
