@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F823C8CB2709C06E00CB6F31 /* AlbumCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F823C8CA2709C06E00CB6F31 /* AlbumCoverView.swift */; };
+		F823C8CD2709CBA500CB6F31 /* PlaybackControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F823C8CC2709CBA500CB6F31 /* PlaybackControlView.swift */; };
+		F823C8CF2709E63C00CB6F31 /* SingleAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F823C8CE2709E63C00CB6F31 /* SingleAlbumView.swift */; };
 		F84AB2DB269329D400D69D4F /* ColdwaveApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84AB2DA269329D400D69D4F /* ColdwaveApp.swift */; };
 		F84AB2DF269329D700D69D4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F84AB2DE269329D700D69D4F /* Assets.xcassets */; };
 		F84AB2E2269329D700D69D4F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F84AB2E1269329D700D69D4F /* Preview Assets.xcassets */; };
@@ -31,6 +34,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F823C8CA2709C06E00CB6F31 /* AlbumCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCoverView.swift; sourceTree = "<group>"; };
+		F823C8CC2709CBA500CB6F31 /* PlaybackControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackControlView.swift; sourceTree = "<group>"; };
+		F823C8CE2709E63C00CB6F31 /* SingleAlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAlbumView.swift; sourceTree = "<group>"; };
 		F84AB2D7269329D400D69D4F /* Coldwave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Coldwave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F84AB2DA269329D400D69D4F /* ColdwaveApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColdwaveApp.swift; sourceTree = "<group>"; };
 		F84AB2DE269329D700D69D4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -92,6 +98,9 @@
 				F84AB2E3269329D700D69D4F /* Info.plist */,
 				F84AB2E4269329D700D69D4F /* Coldwave.entitlements */,
 				F84AB2E0269329D700D69D4F /* Preview Content */,
+				F823C8CA2709C06E00CB6F31 /* AlbumCoverView.swift */,
+				F823C8CC2709CBA500CB6F31 /* PlaybackControlView.swift */,
+				F823C8CE2709E63C00CB6F31 /* SingleAlbumView.swift */,
 			);
 			path = Coldwave;
 			sourceTree = "<group>";
@@ -179,7 +188,10 @@
 			files = (
 				F84AB2DB269329D400D69D4F /* ColdwaveApp.swift in Sources */,
 				F84AB2EF26932B0C00D69D4F /* Album.swift in Sources */,
+				F823C8CF2709E63C00CB6F31 /* SingleAlbumView.swift in Sources */,
+				F823C8CB2709C06E00CB6F31 /* AlbumCoverView.swift in Sources */,
 				F84AB2FC26934D5000D69D4F /* ContentView.swift in Sources */,
+				F823C8CD2709CBA500CB6F31 /* PlaybackControlView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
