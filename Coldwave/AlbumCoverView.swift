@@ -28,19 +28,39 @@ struct AlbumCoverView : View, Equatable {
     
     var body: some View {
         ScrollView {
-            let _ = print("Computing potentially huge ScrollView")
-            LazyVGrid(
-                columns: [GridItem(.adaptive(minimum: coverSize))],
-                spacing: GRID_SPACING
-            ){
-                // ForEach with an initial capital F is a SwiftUI view, not the language construct.
-                ForEach(albums, id: \.self) { album in
-                    SingleAlbumView(album: album, coverSize: coverSize, selected: currentAlbum == album)
+            ScrollViewReader {scrollView in
+                // let _ = print("Computing potentially huge ScrollView")
+                LazyVGrid(
+                    columns: [GridItem(.adaptive(minimum: coverSize))],
+                    spacing: GRID_SPACING
+                ){
+                    // ForEach with an initial capital F is a SwiftUI view, not the language construct.
+                    ForEach(albums, id: \.albumPath) { album in
+                        VStack {
+                            // let _ = print("Computing one SingleAlbumView for \(album.title)")
+                            let selected: Bool = state.currentAlbum == album
+                            Image(nsImage: album.cover)
+                                .resizable()
+                                .frame(width: coverSize, height: coverSize, alignment: .center)
+                                .border(Color.black.opacity(selected ? 0.8 : 0.3), width: selected ? 2 : 1)
+                                .shadow(radius: selected ? 10 : 5)
+                            // Ideally name would be vertically oriented beside album cover, like spine text, but
+                            // using HStack with Text().rotationEffect(Angle(degrees: -90)) causes misalignment
+                            Text(album.artist).bold()
+                            Text(album.title).italic()
+                        }
                         .onTapGesture(count: 2) {
                             state.jumpToTrack(album: album, trackNumber: 0)
                         }
+                    }
+                }.padding(PADDING).onAppear() {
+                    // Return to selected album on exiting full-window album cover view.
+                    // This still doesn't handle the case of losing one's position by resizing.
+                    if let ca = currentAlbum {
+                        scrollView.scrollTo(ca.albumPath)
+                    }
                 }
-            }.padding(PADDING)
+            }
         }
     }
 

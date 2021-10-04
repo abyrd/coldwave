@@ -22,7 +22,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            // Text search box. This intentionally draws the keyboard focus away from the track selector
+            // Top edge: text search box. This intentionally draws the keyboard focus away from the track selector
             // or time slider. They look less than great with a permanent fat blue focus ring.
             HStack {
                 Image(systemName: "magnifyingglass")
@@ -37,18 +37,22 @@ struct ContentView: View {
             .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
             .foregroundColor(.secondary)
             .cornerRadius(10.0)
-            // Either a full-size album cover or a scrollable view of all album covers if no album is playing.
-            // Unfortunately this loses the position in the multi-album view when showing the single album.
-            // It does crudely prevent the AVPlayer glitching that happens when scrolling by eliminating scrolling.
-//            if (state.playing) {
-//                Image(nsImage: state.currentAlbum!.cover)
-//                    .resizable()
-//                    .border(Color.black)
-//                    .aspectRatio(contentMode: .fit)
-//                    .padding(PADDING)
-//            } else {
+            
+            // Center screen: Either a full-size album cover or a scrollable view of all covers if no album is playing.
+            // This crudely sidesteps the AVPlayer glitching that happens when scrolling (by eliminating scrolling).
+            // Showing the single album loses the current scroll position in the multi-album view.
+            // Factoring the ScrollView out of AlbumCoverView does not keep the position.
+            if (state.playing) {
+                Image(nsImage: state.currentAlbum!.cover)
+                    .resizable()
+                    .border(Color.black)
+                    .aspectRatio(contentMode: .fit)
+                    .padding(PADDING)
+            } else {
+                AlbumCoverView(state: state)
+            }
 
-            AlbumCoverView(state: state)
+            // Bottom edge: playback and track selection controls.
             PlaybackControlView(state: state)
         }
     }

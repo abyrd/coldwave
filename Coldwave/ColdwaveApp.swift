@@ -94,7 +94,6 @@ class ColdwaveState: ObservableObject {
         jumpToTrack(trackNumber)
     }
 
-    // TODO implement next-track crossfade using setVolume(t)? That's only available on AVAudioPlayer.
     func jumpToTrack (_ trackNumber: Int) {
         if (trackNumber >= 0 && trackNumber < playlist.count) {
             let track = AVPlayerItem(asset: AVAsset(url: playlist[trackNumber]))
