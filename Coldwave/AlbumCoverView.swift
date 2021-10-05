@@ -1,29 +1,22 @@
-//
-//  AlbumCoverView.swift
-//  Coldwave
-//
-//  Created by Andrew Byrd on 3/10/2021.
-//
-
 import SwiftUI
 import Foundation
 
-// Testing out Equatable for more efficient updates.
-// LazyVGrid is too big to recompute at every interaction - factored out into Equatable struct.
+// LazyVGrid is too big to recompute at every interaction
+// It has been factored out into an Equatable struct for more efficient updates.
 struct AlbumCoverView : View, Equatable {
 
     let path: String
-    let albums: [Album]
     let coverSize: CGFloat
     let currentAlbum: Album?
-    let state: ColdwaveState // replace with separate CWPlayer class, with play methods. That's not observable state.
-
+    let state: ColdwaveState // replace with separate ColdwavePlayer class, with play methods.
+    let searchText: String
+    
     init(state: ColdwaveState) {
         self.state = state
         path = state.path
-        albums = state.albums
         coverSize = state.coverSize
         currentAlbum = state.currentAlbum
+        searchText = state.searchText
     }
     
     var body: some View {
@@ -35,23 +28,16 @@ struct AlbumCoverView : View, Equatable {
                     spacing: GRID_SPACING
                 ){
                     // ForEach with an initial capital F is a SwiftUI view, not the language construct.
-                    ForEach(albums, id: \.albumPath) { album in
-                        VStack {
-                            // let _ = print("Computing one SingleAlbumView for \(album.title)")
-                            let selected: Bool = state.currentAlbum == album
-                            Image(nsImage: album.cover)
-                                .resizable()
-                                .frame(width: coverSize, height: coverSize, alignment: .center)
-                                .border(Color.black.opacity(selected ? 0.8 : 0.3), width: selected ? 2 : 1)
-                                .shadow(radius: selected ? 10 : 5)
-                            // Ideally name would be vertically oriented beside album cover, like spine text, but
-                            // using HStack with Text().rotationEffect(Angle(degrees: -90)) causes misalignment
-                            Text(album.artist).bold()
-                            Text(album.title).italic()
-                        }
-                        .onTapGesture(count: 2) {
-                            state.jumpToTrack(album: album, trackNumber: 0)
-                        }
+                    // Identify albums by their filesystem path which is hashable (it's a String).
+                    // Alternatively we could make a struct for a single album cover conforming to Identifiable.
+                    ForEach(state.albums.filter({ a in a.matchesSearchTerm(searchText) })) { album in
+                        let selected = (state.currentAlbum === album)
+                        SingleAlbumView(album: album, size: coverSize)
+                            // TODO factor out aspectRatio or frame() call here so highlight and size are both handled in LazyVGrid
+                            .background(selected ? Color.accentColor : Color.clear)
+                            .onTapGesture(count: 2) {
+                                state.jumpToTrack(album: album, trackNumber: 0)
+                            }
                     }
                 }.padding(PADDING).onAppear() {
                     // Return to selected album on exiting full-window album cover view.
@@ -64,9 +50,12 @@ struct AlbumCoverView : View, Equatable {
         }
     }
 
-    // Only re-render this view if the path or cover size change, or if a different album is selected.
+    // Only re-render this view if the path, cover size, or search filter change, or if a different album is selected.
     static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.path == rhs.path && lhs.coverSize == rhs.coverSize && lhs.currentAlbum == rhs.currentAlbum
+        return lhs.path == rhs.path &&
+            lhs.coverSize == rhs.coverSize &&
+            lhs.currentAlbum === rhs.currentAlbum &&
+            lhs.searchText == rhs.searchText
     }
 
 }

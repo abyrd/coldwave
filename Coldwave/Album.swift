@@ -1,21 +1,20 @@
-//
-//  Album.swift
-//  Coldwave
-//
-//  Created by Andrew Byrd on 2015-02-01.
-//  Copyright (c) 2015, 2016, 2017 Andrew Byrd. All rights reserved.
-//
-
 import Foundation
 import Quartz
 
-class Album: NSObject {
+// Represents a single album (a single filesystem directory containing audio files).
+// This is the domain model, not the visual representation as a View.
+class Album: Identifiable, Equatable {
     
+    static func == (lhs: Album, rhs: Album) -> Bool {
+        // Identity equality for Albums. Could also compare albumPaths for consistency with Identifiable
+        lhs === rhs
+    }
+    
+    let albumPath: String
+    let artist: String
+    let title: String
     var coverImagePath: String = ""
-    var albumPath: String
-    var title: String
-    var artist: String
-    var cover: NSImage
+    let cover: NSImage
 
     /* Call with full path to a directory */
     init (_ albumFullPath: String) {
@@ -57,9 +56,11 @@ class Album: NSObject {
         }
     */
 
+    // Identifiable protocol - help collection views uniquely identify their subitems
+    var id: String { albumPath }
     
     // TODO use URLs which are more efficient than string paths
-    class func scanArtist (_ artistBasePath: String) -> [Album] {
+    static func scanArtist (_ artistBasePath: String) -> [Album] {
         var albums: [Album] = []
         let fileManager = FileManager.default
         let contents = try! fileManager.contentsOfDirectory(atPath: artistBasePath)
@@ -75,7 +76,7 @@ class Album: NSObject {
     
 
     // Return an array of Album objects for subdirectories under the supplied base directory.
-    class func scanLibrary (at basePath: String) -> [Album] {
+    static func scanLibrary (at basePath: String) -> [Album] {
         var albums: [Album] = []
         let fileManager = FileManager.default
         let contents = try! fileManager.contentsOfDirectory(atPath: basePath)
@@ -108,7 +109,13 @@ class Album: NSObject {
         return musicFileURLs
     }    
 
-    //    Use these to decide whether to catalog a given directory
+    // Return true if the artist or title contains the specified search string, ignoring case and diacritical marks.
+    func matchesSearchTerm (_ searchTerm: String) -> Bool {
+        // Contains method does not return true for empty string argument.
+        searchTerm.isEmpty || artist.localizedStandardContains(searchTerm) || title.localizedStandardContains(searchTerm)
+    }
+    
+    //    We could use these to decide whether to catalog a given directory, allowing more flexible director layout.
     //    class func findMusicFiles
     //    class func findCoverImages
     //    class func findMetadataInDir
