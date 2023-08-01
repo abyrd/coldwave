@@ -1,10 +1,12 @@
 import Foundation
 import AVFoundation
+import SwiftUI
 
 class ColdwaveState: ObservableObject {
     
+    @AppStorage("music.folder") var path = ""
     @Published var albums: [Album] = []
-    @Published var path: String = "";
+    //@Published var path = "";
     @Published var currentAlbum: Album?
     @Published var currentTrack = 0
     @Published var coverSize: CGFloat = DEFAULT_IMAGE_SIZE
@@ -12,7 +14,7 @@ class ColdwaveState: ObservableObject {
     @Published var amountPlayed: Double = 0.0 // in range 0...1
     @Published var playing: Bool = false
     @Published var searchText: String = ""
-
+    
     let player: AVPlayer = AVPlayer()
 
     init() {
@@ -25,6 +27,10 @@ class ColdwaveState: ObservableObject {
             if let duration = self.player.currentItem?.duration.convertScale(t.timescale, method: CMTimeRoundingMethod.default) {
                 self.amountPlayed = Double(t.value) / Double(duration.value)
             }
+        }
+        
+        if path != "" {
+            albums = Album.scanLibrary(at: path)
         }
     }
     
