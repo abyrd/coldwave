@@ -31,7 +31,6 @@ struct ColdwaveApp: App {
         
         Window("Open location", id: "open-location") {
             LocationView()
-                //.fixedSize()
         }.windowResizability(.contentSize)
     }
     

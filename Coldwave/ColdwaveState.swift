@@ -14,6 +14,8 @@ class ColdwaveState: ObservableObject {
     @Published var amountPlayed: Double = 0.0 // in range 0...1
     @Published var playing: Bool = false
     @Published var searchText: String = ""
+    @Published var timePlayed = 0
+    @Published var timeRemaining = 0
     
     let player: AVPlayer = AVPlayer()
 
@@ -26,6 +28,8 @@ class ColdwaveState: ObservableObject {
             // converting the track duration units to match the amountPlayed units.
             if let duration = self.player.currentItem?.duration.convertScale(t.timescale, method: CMTimeRoundingMethod.default) {
                 self.amountPlayed = Double(t.value) / Double(duration.value)
+                self.timePlayed = Int(t.seconds)
+                self.timeRemaining = Int(duration.seconds - t.seconds)
             }
         }
         

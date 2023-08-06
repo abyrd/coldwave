@@ -19,9 +19,11 @@ struct LocationView: View {
             }
             HStack {
                  Button("Cancel") {
+                    location = ""
                     dismiss()
                 }
                 Button("Open") {
+                    print(location)
                     dismiss()
                 }
             }
