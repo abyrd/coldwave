@@ -29,7 +29,8 @@ class ColdwaveState: ObservableObject {
             if let duration = self.player.currentItem?.duration.convertScale(t.timescale, method: CMTimeRoundingMethod.default) {
                 self.amountPlayed = Double(t.value) / Double(duration.value)
                 self.timePlayed = Int(t.seconds)
-                self.timeRemaining = Int(duration.seconds - t.seconds)
+                let d = duration.seconds
+                self.timeRemaining = d.isNaN ? 0 : Int(d - t.seconds)
             }
         }
         
