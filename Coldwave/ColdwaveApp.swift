@@ -5,7 +5,9 @@ struct ColdwaveApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     @StateObject var state: ColdwaveState = ColdwaveState()
-    @Environment(\.openWindow) private var openWindow
+    
+    // Only available in macOS 13.0 and later
+    //@Environment(\.openWindow) private var openWindow
 
     var body: some Scene {
         WindowGroup {
@@ -16,8 +18,10 @@ struct ColdwaveApp: App {
                 Button(action: { openFolder() }, label: { Label("Open directory...", systemImage: "doc") })
                     .keyboardShortcut("o")
 
+                /*
                 Button(action: { openWindow(id: "open-location") }, label: { Label("Open location...", systemImage: "doc")})
                     .keyboardShortcut("l")
+                 */
             }
             CommandMenu("Utilities") {
                 Button("Bigger") {
@@ -29,9 +33,11 @@ struct ColdwaveApp: App {
             }
         }
 
+        /*
         Window("Open location", id: "open-location") {
             LocationView()
         }.windowResizability(.contentSize)
+         */
     }
 
     private func openFolder () {

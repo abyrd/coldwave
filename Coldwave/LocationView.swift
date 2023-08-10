@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct LocationView: View {
-    @Environment(\.dismiss) private var dismiss
+    // Only available in macOS 12.0 or later
+    //@Environment(\.dismiss) private var dismiss
     @State private var location : String = ""
 
     var body: some View {
@@ -20,11 +21,11 @@ struct LocationView: View {
             HStack {
                  Button("Cancel") {
                     location = ""
-                    dismiss()
+                    //dismiss()
                 }
                 Button("Open") {
                     print(location)
-                    dismiss()
+                    //dismiss()
                 }
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
