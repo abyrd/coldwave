@@ -3,7 +3,7 @@ import AVFoundation
 import SwiftUI
 
 class ColdwaveState: ObservableObject {
-    
+
     @AppStorage("music.folder") var path = ""
     @Published var albums: [Album] = []
     //@Published var path = "";
@@ -16,7 +16,7 @@ class ColdwaveState: ObservableObject {
     @Published var searchText: String = ""
     @Published var timePlayed = 0
     @Published var timeRemaining = 0
-    
+
     let player: AVPlayer = AVPlayer()
 
     init() {
@@ -33,12 +33,12 @@ class ColdwaveState: ObservableObject {
                 self.timeRemaining = d.isNaN ? 0 : Int(d - t.seconds)
             }
         }
-        
+
         if path != "" {
             albums = Album.scanLibrary(at: path)
         }
     }
-    
+
     // It doesn't seem clean to put this (or the AVPlayer) on the state, but notification
     // targets have to be objc functions which have to be members of an NSObject or protocol.
     // I could probably factor the player field and these methods out into another class.
@@ -79,12 +79,11 @@ class ColdwaveState: ObservableObject {
         player.pause()
         playing = false
     }
-    
+
     func play () {
         if (player.currentItem != nil) {
             player.play()
             playing = true
         }
     }
-
 }

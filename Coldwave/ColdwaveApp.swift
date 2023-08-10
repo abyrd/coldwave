@@ -3,10 +3,10 @@ import SwiftUI
 @main
 struct ColdwaveApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
+
     @StateObject var state: ColdwaveState = ColdwaveState()
     @Environment(\.openWindow) private var openWindow
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView(state: state)
@@ -15,7 +15,7 @@ struct ColdwaveApp: App {
             CommandGroup(before: CommandGroupPlacement.newItem) {
                 Button(action: { openFolder() }, label: { Label("Open directory...", systemImage: "doc") })
                     .keyboardShortcut("o")
-                
+
                 Button(action: { openWindow(id: "open-location") }, label: { Label("Open location...", systemImage: "doc")})
                     .keyboardShortcut("l")
             }
@@ -28,12 +28,12 @@ struct ColdwaveApp: App {
                 }.keyboardShortcut("-")
             }
         }
-        
+
         Window("Open location", id: "open-location") {
             LocationView()
         }.windowResizability(.contentSize)
     }
-    
+
     private func openFolder () {
         let dialog = NSOpenPanel();
         dialog.title                   = "Choose root music directory | ABCD";
@@ -57,14 +57,14 @@ struct ColdwaveApp: App {
 final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         let unwantedMenus = ["Edit","View"  ]
-        
+
         let removeMenus = {
             unwantedMenus.forEach {
                 guard let menu = NSApp.mainMenu?.item(withTitle: $0) else { return }
                 NSApp.mainMenu?.removeItem(menu)
             }
         }
-        
+
         NotificationCenter.default.addObserver(
             forName: NSMenu.didAddItemNotification,
             object: nil,
@@ -73,7 +73,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             // Must refresh after every time SwiftUI re adds
             removeMenus()
         }
-        
+
         removeMenus()
     }
 }
