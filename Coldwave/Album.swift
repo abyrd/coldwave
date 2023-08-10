@@ -20,7 +20,7 @@ class Album: Identifiable, Equatable {
     init (_ albumFullPath: String) {
         albumPath = albumFullPath
         let fileManager = FileManager.default
-        let contents = try! fileManager.contentsOfDirectory(atPath: albumFullPath)
+        let contents = try! fileManager.contentsOfDirectory(atPath: albumFullPath).sorted()
         for file in contents as [String] {
             var isDir: ObjCBool = false;
             let lcFile = file.lowercased()
@@ -94,7 +94,7 @@ class Album: Identifiable, Equatable {
     // Return an array of URLs, one for each music file in this album's folder.
     func getPlaylist () -> [URL] {
         let fileManager = FileManager.default
-        let contents = try! fileManager.contentsOfDirectory(atPath: albumPath)
+        let contents = try! fileManager.contentsOfDirectory(atPath: albumPath).sorted()
         var musicFileURLs: [URL] = []
         for file in contents as [String] {
             let lcFile = file.lowercased()
