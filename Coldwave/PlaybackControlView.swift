@@ -31,7 +31,7 @@ struct PlaybackControlView: View {
                 Image(systemName: "forward.end.fill")
             }
             
-            let selectedItem = (state.playlist.isEmpty) ? "Album Tracks" : state.playlist[state.currentTrack].lastPathComponent
+            let selectedItem = (state.currentTitle == "") ? "Album Tracks" : state.currentTitle
             Menu(selectedItem) {
                 ForEach(state.playlist.indices, id: \.self) { trackIndex in
                     Button(state.playlist[trackIndex].lastPathComponent) {
@@ -39,7 +39,7 @@ struct PlaybackControlView: View {
                     }.id(trackIndex)
                 }
             }
-        }.padding(PADDING)
+        }.padding(.horizontal)
         // When slider is moved, trailing closure is called with true, then false when released.
         // Dragging is quite unresponsive, maybe because the UI is recomputed when state changes.
         Slider(value: $state.amountPlayed, in: 0...1) {editing in
@@ -49,8 +49,12 @@ struct PlaybackControlView: View {
                     state.player.seek(to: CMTimeMake(value: Int64(newPosition), timescale: d.timescale))
                 }
             }
-        }.padding(PADDING)
-        // Text(String(state.amountPlayed))
+        }.padding(.horizontal)
+        HStack {
+            Text(mmss(seconds: state.timePlayed))
+            Spacer()
+            Text(mmss(seconds: state.timeRemaining))
+        }.padding(.horizontal).padding(.bottom)
     }
     
     private func mmss (seconds: Int) -> String {
